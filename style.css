@@ -1,0 +1,75 @@
+body {
+    background-color: #E8E8E8;
+}
+
+header {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border-radius: 5px;
+  }
+
+.card-header {
+    border-bottom: #E8E8E8 solid 1.5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-body {
+    text-align: center;
+    border: #E8E8E8 dashed 2px;
+    height: 100px;
+    margin: 10px 0px;
+    border-radius: 5px;
+}
+
+#password {
+    width: 95%;
+    height: 80%;
+    text-align: center;
+    margin: 5px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 0px;
+}
+
+.card-footer {
+    border-top: #E8E8E8 solid 1.5px;
+    padding-top: 10px;
+    margin-bottom: 40px;
+}
+
+#generate {
+    background-color: darkred;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 15px;
+    color: white;
+    float: left;
+    font-size: 14px;
+    padding: 8px 20px;
+    margin-left: 20px;
+}
+
+#copy {
+    background-color: gray;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 15px;
+    color: white;
+    float: right;
+    font-size: 14px;
+    padding: 8px 20px;
+    margin-right: 20px;
+}
+
+@media only screen and (max-width: 680px) {
+    .card {
+      width: fit-content;
+      height: fit-content;
+    }
+  }
