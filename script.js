@@ -46,6 +46,8 @@ if (userLeng > 128 || userLeng < 8) {
 
 
 
+
+      
 // how the password is generated
 
 function generatepassword() {
