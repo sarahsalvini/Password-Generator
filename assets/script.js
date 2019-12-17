@@ -1,84 +1,148 @@
-// variables
-var upperCase = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-var lowerCase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-var number = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-var special = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', ':', '<', '>', '?',];
+var min = 8;
+var max = 128;
+var pwLength = -1;
+var pwChars = "";
+var charOptions = [
+    {
+        description: "special characters",
+        charSet: " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~",
+        use: false,
+    },
+    
+    {
+        description: "numbers",
+        charSet: "0123456789",
+        use: false,
+    },
+
+    {
+        description: "upper case letters",
+        charSet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        use: false,
+    },
+
+    {
+        description: "lower case letters",
+        charSet: "abcdefghijklmnopqrstuvwxyz",
+        use: false,
+    },
+];
 
 
-var password = "";
-var password2 = "";
-var password3 = "";
-var password4 = "";
+// Get Elements from the Page
+var genButton = document.getElementById("generate");
+var copyButton = document.getElementById("copy");
+var passwordText = document.getElementById("password");
 
-var userLeng = "";
-var userLower = "";
-var userUpper = "";
-var userNumbers = "";
-var userSpec = "";
+// Click generate to start password creation
+genButton.addEventListener("click", function() {
+    if (pwChars !== "" || getOptions()) {
+        var password = generatePassword(pwChars, pwLength);
+        updatePage(password);
+    }
+});
 
 
-var generate = document.getElementById("generate");
-var copy = document.getElementById("copy");
+//  Prompt the user for a password length depending on true or false alerts users
+ 
+function getOptions() {
+    pwLength = getLength();
+    if (pwLength < 0) {
+        alert("Password must be between " + min + " and " + max + "characters.");
+        return false;
+    }
 
-// questions based on initial answer
-var userLeng = prompt('How long would you like your password? (min 8 - max 128)');
-if (userLeng > 128 || userLeng < 8) {
-    alert("Must be within 8-128 characters.");
-    var userLeng = prompt('How long would you like your password? (min 8 - max 128)');
+    pwChars = getChars();
+    if (pwChars === "") {
+        alert("You must select at least 1 character set to use.");
+        return false;
+    }
+    return true;
 }
 
- else (userLeng < 128 || userLeng > 8); {
-        console.log(userLeng)
 
-    var userLower = confirm('Would you like to include lower case characters?');
-       console.log(userLower)
+// Prompt the user for a Password Length and turns valid number into a string
 
-    var userUpper = confirm('Would you like to include upper case characters?');
-      console.log(userUpper)
+function getLength() {
+    var lengthInput = prompt("How long would you like your password? (" + min + " - " + max + " characters)");
+    var length = parseFloat(lengthInput);
 
-
-    var userNumbers = confirm('Would you like to include numbers?');
-      console.log(userNumbers)
-
-    var userSpec = confirm('Would you like to include a special characters?');
-      console.log(userSpec)
-      }
-
-
-
-// how the password is generated
-
-function generateLower() {
-for (var i = 0; i < lowerCase.length; i++) {
-password = password + lowerCase.charAt(Math.floor(Math.random() * Math.floor(lowerCase.length)));
-}
-}
-function generateUpper() {
-for (var i = 0; i < upperCase.length; i++) {
-  password2 = password2 + upperCase.charAt(Math.floor(Math.random() * Math.floor(upperCase.length)));
-}
-}
-function generateSpecial() {
-for (var i = 0; i < special.length; i++) {
-password3 = password3 + special.charAt(Math.floor(Math.random() * Math.floor(special.length)));
-}
-}
-function generateNumber() {
-for (var i = 0; i < number.length; i++) {
-password4 = password4 + number.charAt(Math.floor(Math.random() * Math.floor(number.length)));
-}
+    if (!Number.isInteger(length)) {
+        return -1;
+    } else if (length < min) {
+        return -1;
+    } else if (length > max) {
+        return -1;
+    }
+    return length;
 }
 
-// calling the functions
-if (userLower.confirm) {
-  generateLower() }
-if (userUpper.confirm) {
-  generateUpper() }
-if (userSpec.confirm) {
-  generateSpecial() }
-if (userNumbers.confirm) {
-  generateNumber() } 
+
+// Give the user a series of prompt to determine how they would like their password formatted
+// Returns a string of characters that can be used in the password
+ 
+function getChars() {
+    var chars = "";
+
+    for (var i=0; i<charOptions.length; i++) {
+        var option = charOptions[i];
+        if (confirm("Would you like to use " + option.description + "?")){
+            chars += option.charSet;
+            charOptions[i].use = true;
+        }
+    }
+    return chars;
+}
 
 
 
+// Creates and returns randomly generated string
+ 
+function generatePassword(availableChars, length) {
+    var result;
+    var badPw;
+    do {
+        result = "";
+        badPw = false;
+        for (var i=0; i<length; i++) {
+            result += getRandomChar(availableChars);
+        }
+        for (var i=0; i<charOptions.length; i++) {
+            if (charOptions[i].use && !isUsingChars(charOptions[i].charSet, result)) {
+                badPw = true;
+                break;
+            }
+        }
+    } while(badPw);
+    return result;
+}
 
+function isUsingChars(charSet, password) {
+    for(var i=0; i<charSet.length; i++) {
+        if (password.includes(charSet[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// place password in text area and 
+function updatePage(password) {
+    document.getElementById("password").textContent = password;
+    copyButton.disabled = false;
+}
+
+// generates random characters
+function getRandomChar(availableChars) {
+    let i = Math.floor(Math.random() * availableChars.length);
+    return availableChars[i];
+}
+
+// Copies password to clipboard
+
+copyButton.addEventListener("click", function() { 
+    passwordText.select();   
+    passwordText.setSelectionRange(0, 128);
+    document.execCommand("copy");   
+});
