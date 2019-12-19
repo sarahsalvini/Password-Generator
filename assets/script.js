@@ -50,4 +50,11 @@ var userSpec = confirm("Would you like to include special characters?");
         userOptions = userOptions + special;
     };
 
+    for (var i = 0; i < pass; i++) {
+        passWord += userOptions[Math.floor(Math.random() * userOptions.length)]
+    };
+
+
+    console.log(passWord);
+    document.getElementById("password").value = passWord;
 }
