@@ -33,6 +33,21 @@ var userSpec = confirm("Would you like to include special characters?");
         alert("Please select at least one option");
         return;
         };
-
+    
+    if (userLower === true){
+        userOptions = userOptions + lowerCase;
+    };
+    
+    if (userUpper === true){
+        userOptions = userOptions + upperCase;
+    };
+    
+    if (userNumber === true){
+        userOptions = userOptions + number;
+    };
+    
+    if (userSpec === true){
+        userOptions = userOptions + special;
+    };
 
 }
