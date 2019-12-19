@@ -58,3 +58,10 @@ var userSpec = confirm("Would you like to include special characters?");
     console.log(passWord);
     document.getElementById("password").value = passWord;
 }
+
+function copyClipboard(){
+    var copy = document.getElementById("password");
+    copy.select();
+    document.execCommand("copy");
+    alert("Password copied to clipboard.");
+};
